@@ -3,8 +3,9 @@
 ## 概要
 
 [@Nyagamon](https://github.com/Nyagamon)さんの[HCADecoder](https://github.com/Nyagamon/HCADecoder)をベースにしたhcaデコーダです。<br>
-macOS High SierraとCentOS7上での動作を確認しています。<br>
-コンパイルには **C++11** 対応のコンパイラが必要です。(gcc7が必要？)
+macOS (High Sierra)とCentOS7上での動作を確認しています。<br>
+コンパイルにはcmakeとC++11対応のコンパイラが必要です。<br>
+`brew install gcc` したmacOSでコンパイルできることを確認しています。
 
 ## ダウンロード
 
@@ -12,18 +13,31 @@ macOS High SierraとCentOS7上での動作を確認しています。<br>
 
 ## コンパイル
 
-```
+### スクリプト
+```bash
 git clone git@github.com:Cryptomelone/hca2wav.git
 cd hca2wav
-make compile
+./build
 ```
-バイナリは `bin` フォルダ以下 `hca2wav` として生成されます。
+>成果物は `cmake-build-manual` に生成されます。
+
+### 手動
+```bash
+git clone git@github.com:Cryptomelone/hca2wav.git
+cd hca2wav
+mkdir cmake-build-manual
+cd cmake-build-manual
+cmake ..
+make
+```
 
 ## 使い方
 
+```bash
+$ hca2wav [options] <file>...
 ```
-hca2wav target_file.hca
-```
+
+### オプション
 
 - `-o [output]` 出力ファイル名を指定します。
 - `-v [volume]` 音量を指定します。
