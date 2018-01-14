@@ -3,9 +3,8 @@
 ## 概要
 
 [@Nyagamon](https://github.com/Nyagamon)さんの[HCADecoder](https://github.com/Nyagamon/HCADecoder)をベースにしたhcaデコーダです。<br>
-macOS (High Sierra)とCentOS7上での動作を確認しています。<br>
-コンパイルにはcmakeとC++11対応のコンパイラが必要です。<br>
-`brew install gcc` したmacOSでコンパイルできることを確認しています。
+macOS (High Sierra)とCentOS7とWindows10上での動作を確認しています。<br>
+Windows上ではUTF-8対応の影響で文字化けが発生するため、コマンド `chcp 65001` を使用して一時的にコマンドラインのエンコーディングをUTF-8にするか（ロケールがen_USになります）、上記のHCADecoderを使用して下さい。
 
 ## ダウンロード
 
@@ -13,28 +12,59 @@ macOS (High Sierra)とCentOS7上での動作を確認しています。<br>
 
 ## コンパイル
 
-### スクリプト
-```bash
-git clone git@github.com:Cryptomelone/hca2wav.git
-cd hca2wav
-./build
-```
->成果物は `cmake-build-manual` に生成されます。
+### macOS/Linux
 
-### 手動
+#### 依存
+
+- git
+- C++11が使用できるg++コンパイラ
+- cmake
+
+#### シェルスクリプト
 ```bash
+$ git clone git@github.com:Cryptomelone/hca2wav.git
+$ cd hca2wav
+$ ./build
+```
+成果物は `cmake-build-manual` に生成されます。
+
+#### 手動
+```bash
+$ git clone git@github.com:Cryptomelone/hca2wav.git
+$ cd hca2wav
+$ mkdir cmake-build-manual
+$ cd cmake-build-manual
+$ cmake ..
+$ make
+```
+
+### Windows
+
+- git
+- MinGW
+  - g++
+
+```
 git clone git@github.com:Cryptomelone/hca2wav.git
 cd hca2wav
-mkdir cmake-build-manual
-cd cmake-build-manual
-cmake ..
-make
+g++ -O3 -o hca2wav main.cpp src/clHCA.cpp
 ```
+
+成果物は `hca2wav.exe` として生成されます。
 
 ## 使い方
 
+### macOS/Linux
+
 ```bash
 $ hca2wav [options] <file>...
+```
+
+### Windows
+
+```
+chcp 65001 # コマンドラインのエンコーディングをUTF-8に、セッションに限り有効
+hca2wav.exe [options] <file>...
 ```
 
 ### オプション
@@ -75,7 +105,10 @@ $ hca2wav [options] <file>...
 
 ---
 
-## HCAファイルのデコード方法
+# Readme.txt (HCAデコーダ)
+
+
+- HCAファイルのデコード方法
 
   HCAファイルをhca.exeにドラッグ＆ドロップすると、同じファイル名のWAVEファイルができます。
   複数ファイルのデコードにも対応してます。
@@ -86,14 +119,14 @@ $ hca2wav [options] <file>...
   こちらも複数ファイルのデコードに対応してます。
 
 
-## HCAファイルの復号化方法
+- HCAファイルの復号化方法
 
   HCAファイルを復号化.batにドラッグ＆ドロップすると、HCAファイル自体が復号化されます。
   上書きされるので注意してください。
   複数ファイルの復号化にも対応してます。
 
 
-## 仕様
+- 仕様
 
   デフォルトのデコードオプションは
     音量 = 1(倍)
@@ -106,12 +139,17 @@ $ hca2wav [options] <file>...
   ただし、デコードオプションのループ回数が1回以上のときは、smplチャンクを追加せず、直接波形データとして出力します。
   このとき出力される波形データは以下のようになります。
   ※HCAファイルにループ情報が入っていない場合、ループ開始位置とループ終了位置をそれぞれ先頭位置と末尾位置として扱います。
-  [先頭位置～ループ終了位置]＋[ループ開始位置～ループ終了位置]×(ループ回数－１)＋[ループ開始位置～末尾位置]
+  [先頭位置〜ループ終了位置]＋[ループ開始位置〜ループ終了位置]×(ループ回数−１)＋[ループ開始位置〜末尾位置]
+  ```
+            ↓ループ開始位置
+  先頭位置→□□□■■■■■■□←末尾位置
+      ループ終了位置↑
+  ```
 
   HCAファイルにコメント情報が入っていた場合、WAVEファイルにnoteチャンクを追加してます。
 
 
-## 注意事項
+- 注意事項
 
   一応バージョンチェックを外してますが
   今後、v2.1以降のHCAが出てきたとき、デコードに失敗する可能性があります。
@@ -133,13 +171,13 @@ $ hca2wav [options] <file>...
   ファイルが開けず、エラーが出ます。
 
 
-## 免責事項
+- 免責事項
 
   このアプリケーションを利用した事によるいかなる損害も作者は一切の責任を負いません。
   自己の責任の上で使用して下さい。
 
 
-## その他
+- その他
 
   HCAv2.0からヘッダのVBRチェックをやってない痕跡があるので
   最初からCBRのみしか存在しないのかもしれない。
