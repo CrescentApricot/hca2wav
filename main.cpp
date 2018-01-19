@@ -139,11 +139,10 @@ int main(int argc, char *argv[]) {
             }
         }
 
-            // デコード
         else {
             printf("%s をデコード中...\n", argv[i]);
             clHCA hca(ciphKey1, ciphKey2);
-            if (!hca.DecodeToWaveFile(argv[i], path, volume, mode, loop)) {
+            if (!hca.DecodeToWaveFile(argv[i], filenameOut, volume, mode, loop)) {
                 printf("Error: デコードに失敗しました。\n");
             }
         }
