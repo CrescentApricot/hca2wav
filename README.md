@@ -2,6 +2,10 @@
 
 ## 概要
 
+> **Recommend**: [hca](https://github.com/Ishotihadus/hca)
+
+---
+
 [@Nyagamon](https://github.com/Nyagamon)さんの[HCADecoder](https://github.com/Nyagamon/HCADecoder)をベースにしたhcaデコーダです。<br>
 macOS (High Sierra)とCentOS7とWindows10上での動作を確認しています。<br>
 Windows上ではUTF-8対応の影響で文字化けが発生するため、コマンド `chcp 65001` を使用して一時的にコマンドラインのエンコーディングをUTF-8にするか（ロケールがen_USになります）、上記のHCADecoderを使用して下さい。
